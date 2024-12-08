@@ -1,0 +1,12 @@
+# JetBrains Idea Folders
+
+.idea
+/.idea
+
+# Github
+
+.git/
+.github
+/.github
+
+.vscode/

@@ -1,0 +1,14 @@
+api.user-directory.local {
+    root * /var/projects/api/public
+    encode gzip zstd
+    file_server
+    php_fastcgi api:9000
+}
+
+user-directory.local {
+    reverse_proxy web:3000
+
+    handle_path /api {
+        reverse_proxy api:9000/api
+    }
+}

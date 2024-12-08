@@ -1,0 +1,67 @@
+version: '3.8'
+
+volumes:
+  caddy-config:
+  caddy-data:
+
+networks:
+  user-directory-network:
+    driver: bridge
+    name: user-directory-network
+
+services:
+  caddy:
+    container_name: server
+    image: caddy/caddy:2.7.2-alpine
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - caddy-config:/config
+      - caddy-data:/data
+      - ./local/caddy/:/etc/caddy/
+      - ../projects:/var/projects
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "10"
+    networks:
+      - user-directory-network
+
+  database:
+    container_name: db
+    image: mysql:8.0
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_USER: ${DB_USERNAME:-user-directory}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-hello@world}
+      MYSQL_DATABASE: ${DB_DATABASE:-user-directory}
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-hello@world}
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "10"
+    networks:
+      - user-directory-network
+
+  redis:
+    image: bitnami/redis
+    container_name: cache
+    restart: always
+    ports:
+      - "6379:6379"
+    environment:
+      ALLOW_EMPTY_PASSWORD: "yes"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "10"
+    networks:
+      - user-directory-network

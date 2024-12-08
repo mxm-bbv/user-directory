@@ -1,0 +1,20 @@
+api.user-directory.local {
+    root * /var/projects/api/public
+    encode gzip zstd
+    file_server
+    php_fastcgi api:9000
+
+    # SSL
+    tls /data/local-certs/api.user-directory.local.pem /data/local-certs/api.user-directory.local-key.pem
+}
+
+user-directory.local {
+    reverse_proxy web:3000
+
+    handle_path /api {
+        reverse_proxy api:9000/api
+    }
+
+    # SSL
+    tls /data/local-certs/user-directory.local.pem /data/local-certs/user-directory.local-key.pem
+}
