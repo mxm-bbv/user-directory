@@ -1,4 +1,4 @@
-export type RoleKey = 'admin' | 'user';
+export type RoleKey = 'admin' | 'user' | string;
 
 export const rolesMap: Record<RoleKey, string> = {
   admin: 'Администратор',
@@ -10,8 +10,8 @@ export const rolesMap: Record<RoleKey, string> = {
  * @param key - Внутреннее значение роли.
  * @returns Отображаемое значение роли.
  */
-export function getRoleDisplayName(key: RoleKey): string {
-  return rolesMap[key];
+export function getRoleDisplayName(key: RoleKey | undefined): string {
+  return rolesMap[key as RoleKey] || "Неизвестная роль";
 }
 
 /**

@@ -66,3 +66,19 @@ services:
         max-file: "10"
     networks:
       - user-directory-network
+
+  ngrok:
+    image: ngrok/ngrok:latest
+    container_name: ngrok
+    depends_on:
+      - caddy
+    restart: unless-stopped
+    command:
+      - "start"
+      - "--all"
+      - "--config"
+      - "/etc/ngrok.yml"
+    volumes:
+      - ./local/ngrok.yml:/etc/ngrok.yml
+    networks:
+      - user-directory-network

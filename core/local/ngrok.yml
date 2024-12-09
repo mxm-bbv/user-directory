@@ -1,0 +1,11 @@
+version: 3
+
+agent:
+  authtoken: 2pwTmXkUzPVHb7Maiid2wLgscpe_77BtJm6177s83qCxcuX1J
+  api_key: 2pwoIkiv4IhBCi3Yo9nRuD7wz82_2zKhSuaDXXttJBpPKqCxK
+
+tunnels:
+  basic:
+    proto: http
+    addr: web:4173
+    domain: legal-privately-chow.ngrok-free.app

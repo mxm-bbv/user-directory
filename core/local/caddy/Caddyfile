@@ -1,3 +1,8 @@
+:80 {
+    reverse_proxy /api* api:80
+    reverse_proxy / web:3000
+}
+
 api.user-directory.local {
     root * /var/projects/api/public
     encode gzip zstd

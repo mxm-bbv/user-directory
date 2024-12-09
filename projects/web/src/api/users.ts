@@ -1,13 +1,17 @@
 import apiClient from './axios';
-import type {ApiResponse, User} from "@/types/User";
+import type {ApiResponse} from "@/types/api/Response";
+import type {User} from "@/types/User";
+import type {AddUser} from "@/types/api/actions/AddUser";
+import type {UpdateUser} from "@/types/api/actions/UpdateUser";
+import type {BlockUser} from "@/types/api/actions/BlockUser";
 
 class UsersService {
   /**
    * Получить список пользователей.
    * @returns Promise с массивом пользователей.
    */
-  async getUsers(): Promise<User[]> {
-    const response = await apiClient.get<ApiResponse<User[]>>('/users');
+  async getUsers() {
+    const response = await apiClient.get('/users');
     if (!response.data.status) {
       throw new Error(response.data.message || 'Failed to fetch users.');
     }
@@ -19,7 +23,7 @@ class UsersService {
    * @param user Данные нового пользователя.
    * @returns Созданный пользователь.
    */
-  async addUser(user): Promise<User> {
+  async addUser(user: AddUser): Promise<User> {
     const response = await apiClient.post<ApiResponse<User>>('/users', user);
     if (!response.data.status) {
       throw new Error(response.data.message || 'Failed to add user.');
@@ -33,7 +37,7 @@ class UsersService {
    * @param user Обновленные данные.
    * @returns Обновленный пользователь.
    */
-  async updateUser(id: number, user: Partial<User>): Promise<User> {
+  async updateUser(id: number, user: UpdateUser): Promise<User> {
     const response = await apiClient.put<ApiResponse<User>>(`/users/${id}`, user);
     if (!response.data.status) {
       throw new Error(response.data.message || 'Failed to update user.');
@@ -43,11 +47,11 @@ class UsersService {
 
   /**
    * Заблокировать пользователя.
-   * @param id ID пользователя.
    * @returns Сообщение об успешности операции.
+   * @param user
    */
-  async blockUser(id: number): Promise<string> {
-    const response = await apiClient.post<ApiResponse<null>>(`/users/${id}/block`);
+  async blockUser(user: BlockUser): Promise<string> {
+    const response = await apiClient.post<ApiResponse<null>>(`/users/${user.id}/block`);
     if (!response.data.status) {
       throw new Error(response.data.message || 'Failed to block user.');
     }
@@ -56,11 +60,11 @@ class UsersService {
 
   /**
    * Разблокировать пользователя.
-   * @param id ID пользователя.
    * @returns Сообщение об успешности операции.
+   * @param user
    */
-  async unblockUser(id: number): Promise<string> {
-    const response = await apiClient.post<ApiResponse<null>>(`/users/${id}/unblock`);
+  async unblockUser(user: BlockUser): Promise<string> {
+    const response = await apiClient.post<ApiResponse<null>>(`/users/${user.id}/unblock`);
     if (!response.data.status) {
       throw new Error(response.data.message || 'Failed to unblock user.');
     }
