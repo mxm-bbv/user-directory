@@ -61,7 +61,6 @@ export default defineComponent({
 
     const validate = () => {
       if (!isChanged.value && !props.isEdit) {
-        // Make all fields mandatory when adding a new user
         error.value = props.rules.some(rule => rule.required) ? 'Это поле обязательно' : '';
         return;
       }
@@ -87,11 +86,11 @@ export default defineComponent({
       () => props.modelValue,
       (newValue) => {
         if (newValue !== inputValue.value) {
-          inputValue.value = newValue || ''; // Обновляем `inputValue` при изменении `modelValue`
+          inputValue.value = newValue || '';
           validate();
         }
       },
-      {immediate: true} // Для синхронизации при первом рендере
+      {immediate: true}
     );
 
     const togglePasswordVisibility = () => {
