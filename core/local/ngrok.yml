@@ -7,5 +7,5 @@ agent:
 tunnels:
   basic:
     proto: http
-    addr: web:4173
+    addr: web:3000
     domain: legal-privately-chow.ngrok-free.app
