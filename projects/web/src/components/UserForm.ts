@@ -85,7 +85,7 @@ export function openUserForm(user: User | null, onSaveCallback: (savedUser: User
                     name: "password",
                     label: "Пароль",
                     type: "password",
-                    placeholder: "Чтобы изменить пароль, введите новый",
+                    placeholder: user ? "Чтобы изменить пароль, введите новый" : "Введите пароль",
                     value: "",
                     on: {
                         onTimedKeyPress: function () {
